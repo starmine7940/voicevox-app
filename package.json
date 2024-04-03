@@ -31,12 +31,6 @@
     "git": "git add . && git commit && git push origin master",
     "deploy": "npm run rm && npm run build && npm run mv && npm run git"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -48,5 +42,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.2.5"
   }
 }
