@@ -1,27 +1,18 @@
 import { createUseStyles } from "react-jss"
-import {
-  FC,
-  ChangeEvent
-} from "react"
-import {
-  Header,
-  Form,
-  TextArea,
-  Button,
-  Container
-} from "semantic-ui-react"
+import { FC, ChangeEvent } from "react"
+import { Header, Form, TextArea, Button, Container } from "semantic-ui-react"
 import "semantic-ui-css/semantic.min.css"
 
 const useStyles = createUseStyles({
   button: {
     margin: "1em 0em !important",
-  }
+  },
 })
 
 type InputProps = {
-  isFetching: boolean,
-  updateInputTexts: (inputTexts: string) => void,
-  refetchGetVoice: () => void,
+  isFetching: boolean
+  updateInputTexts: (inputTexts: string) => void
+  refetchGetVoice: () => void
 }
 
 export const Input: FC<InputProps> = ({
@@ -30,7 +21,7 @@ export const Input: FC<InputProps> = ({
   refetchGetVoice,
 }) => {
   const classes = useStyles()
-  
+
   const handleInputTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     updateInputTexts(event.target.value)
   }
@@ -41,7 +32,9 @@ export const Input: FC<InputProps> = ({
 
   return (
     <Container>
-      <Header>ずんだもんボイスに変換したいテキストを入力してください。改行するごとに別の音声ファイルに分かれます。</Header>
+      <Header>
+        ずんだもんボイスに変換したいテキストを入力してください。改行するごとに別の音声ファイルに分かれます。
+      </Header>
       <Form>
         <TextArea
           placeholder="テキストを入力してください"
@@ -57,5 +50,5 @@ export const Input: FC<InputProps> = ({
         className={classes.button}
       />
     </Container>
-	)
+  )
 }

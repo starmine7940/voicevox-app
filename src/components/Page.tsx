@@ -5,17 +5,16 @@ import { Title } from "./Title"
 import { Notion } from "./Notion"
 import { Body } from "./Body"
 
-
 const useStyles = createUseStyles({})
 
 export const Page: FC = () => {
   const classes = useStyles()
 
-	return (
+  return (
     <>
       <Title />
       <Body />
       <Notion />
-    </>		
-	)
+    </>
+  )
 }

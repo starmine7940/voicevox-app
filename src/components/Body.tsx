@@ -12,9 +12,7 @@ export const Body: FC = () => {
   const classes = useStyles()
 
   const [inputTexts, setInputTexts] = useState<string[]>([])
-  const updateInputTexts = (
-    inputTexts: string
-  ) => {
+  const updateInputTexts = (inputTexts: string) => {
     setInputTexts(inputTexts.split("\n"))
   }
 
@@ -28,7 +26,7 @@ export const Body: FC = () => {
     refetchGetVoice,
   } = useVoiceVox(inputTexts)
 
-	return (
+  return (
     <>
       <Input
         isFetching={isFetching}
@@ -44,6 +42,6 @@ export const Body: FC = () => {
         isSuccess={isSuccess}
         isError={isError}
       />
-    </>		
-	)
+    </>
+  )
 }
