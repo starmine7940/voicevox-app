@@ -15,12 +15,9 @@ const useStyles = createUseStyles({
 export const Title: FC = () => {
   const classes = useStyles()
 
-	return (
-    <Header
-      as="h1"
-      className={classes.header}
-    >
+  return (
+    <Header as="h1" className={classes.header}>
       ずんだもんボイス生成アプリ
     </Header>
-	)
+  )
 }

@@ -6,7 +6,7 @@ import {
   Container,
   Accordion,
   List,
-  ListItem
+  ListItem,
 } from "semantic-ui-react"
 import "semantic-ui-css/semantic.min.css"
 
@@ -19,20 +19,15 @@ const accordionPanels = [
     content: {
       content: (
         <>
-          <Header>
-            生成される音声データ
-          </Header>
+          <Header>生成される音声データ</Header>
           <List bulleted>
+            <ListItem>全て MP3 ファイルです。</ListItem>
             <ListItem>
-              全て MP3 ファイルです。
-            </ListItem>
-            <ListItem>
-              ダウンロードされるファイル名は、入力されたテキストの先頭 10 文字です。
+              ダウンロードされるファイル名は、入力されたテキストの先頭 10
+              文字です。
             </ListItem>
           </List>
-          <Header>
-            リクエスト
-          </Header>
+          <Header>リクエスト</Header>
           <List bulleted>
             <ListItem>
               ずんだもんボイス作成のリクエストは、5 分間再実行されます。
@@ -41,22 +36,20 @@ const accordionPanels = [
               全てテキストのずんだもんボイス作成のリクエストが成功したら、作成完了したかを確認するリクエストを実行します。
             </ListItem>
             <ListItem>
-              5 分間経っても全てのテキストのずんだもんボイス作成のリクエストが成功しなかった場合、エラーとなります。
+              5
+              分間経っても全てのテキストのずんだもんボイス作成のリクエストが成功しなかった場合、エラーとなります。
             </ListItem>
             <ListItem>
-              ずんだもんボイスの作成が完了したかを確認するリクエストは、5 分間再実行されます。
+              ずんだもんボイスの作成が完了したかを確認するリクエストは、5
+              分間再実行されます。
             </ListItem>
             <ListItem>
               5 分間経っても作成完了にならなかったテキストは、エラーになります。
             </ListItem>
           </List>
-          <Header>
-            エラーになったら
-          </Header>
+          <Header>エラーになったら</Header>
           <List bulleted>
-            <ListItem>
-              テキストの分量が多い場合、減らしてください。
-            </ListItem>
+            <ListItem>テキストの分量が多い場合、減らしてください。</ListItem>
             <ListItem>
               サーバに問題がないか、
               <a
@@ -70,7 +63,7 @@ const accordionPanels = [
             </ListItem>
           </List>
         </>
-      )
+      ),
     },
   },
   {
@@ -107,17 +100,17 @@ const accordionPanels = [
             </a>
           </ListItem>
         </List>
-      )
+      ),
     },
   },
 ]
 
 export const Notion: FC = () => {
   const classes = useStyles()
-	return (
+  return (
     <Container>
       <Divider />
       <Accordion fluid styled panels={accordionPanels} />
     </Container>
-	)
+  )
 }

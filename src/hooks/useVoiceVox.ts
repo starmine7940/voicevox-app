@@ -4,13 +4,13 @@ import { useGetStatusList } from "./useGetStatusList"
 import { GetUrlListSuccessResult } from "../domain/type"
 
 export type UseVoiceVox = {
-  urlList: GetUrlListSuccessResult[] | undefined,
-  isAudioReadyList: boolean[] | undefined,
-  isPending: boolean,
-  isFetching: boolean,
-  isSuccess: boolean,
-  isError: boolean,
-  refetchGetVoice: () => void, 
+  urlList: GetUrlListSuccessResult[] | undefined
+  isAudioReadyList: boolean[] | undefined
+  isPending: boolean
+  isFetching: boolean
+  isSuccess: boolean
+  isError: boolean
+  refetchGetVoice: () => void
 }
 
 export const useVoiceVox = (inputTexts: string[]): UseVoiceVox => {
@@ -31,7 +31,7 @@ export const useVoiceVox = (inputTexts: string[]): UseVoiceVox => {
     isError: isErrorGetStatusList,
     refetch: refetchGetStatusList,
   } = useGetStatusList(
-    urlList ? urlList.map((voiceData) => voiceData.audioStatusUrl) : undefined
+    urlList ? urlList.map((voiceData) => voiceData.audioStatusUrl) : undefined,
   )
 
   const isPending = isPendingGetUrlList || isPendingGetStatusList

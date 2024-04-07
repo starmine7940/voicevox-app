@@ -29,7 +29,8 @@
     "rm": "rm -rf docs",
     "mv": "mv build docs",
     "git": "git add . && git commit && git push origin master",
-    "deploy": "npm run rm && npm run build && npm run mv && npm run git"
+    "deploy": "npm run rm && npm run build && npm run mv && npm run git",
+    "format": "prettier --write src/**/*.ts src/**/*.tsx"
   },
   "browserslist": {
     "production": [
@@ -44,6 +45,7 @@
     ]
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.2.5"
   }

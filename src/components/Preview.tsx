@@ -21,13 +21,13 @@ import { GetUrlListSuccessResult } from "../domain/type"
 const useStyles = createUseStyles({})
 
 type PreviewProps = {
-  inputTexts: string[],
-  urlList: GetUrlListSuccessResult[] | undefined,
-  isAudioReadyList: boolean[] | undefined,
-  isPending: boolean,
-  isFetching: boolean,
-  isSuccess: boolean,
-  isError: boolean,
+  inputTexts: string[]
+  urlList: GetUrlListSuccessResult[] | undefined
+  isAudioReadyList: boolean[] | undefined
+  isPending: boolean
+  isFetching: boolean
+  isSuccess: boolean
+  isError: boolean
 }
 
 export const Preview: FC<PreviewProps> = ({
@@ -63,7 +63,7 @@ export const Preview: FC<PreviewProps> = ({
     }
   }
 
-	return (
+  return (
     <Container>
       <Table celled textAlign="center">
         <TableHeader>
@@ -74,82 +74,95 @@ export const Preview: FC<PreviewProps> = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          { inputTexts.map((inputText, index) => (
+          {inputTexts.map((inputText, index) => (
             <TableRow key={index}>
               <TableCell textAlign="left">{inputText}</TableCell>
               <TableCell>
-                {
-                  (() => {
-                    if (isError) {
+                {(() => {
+                  if (isError) {
+                    return (
+                      <Message negative>
+                        <MessageHeader>エラー</MessageHeader>
+                        <MessageContent>
+                          データの取得に失敗しました。
+                        </MessageContent>
+                      </Message>
+                    )
+                  }
+                  if (isFetching) {
+                    return <Loader active inline="centered" size="small" />
+                  }
+                  if (isPending) {
+                    return null
+                  }
+                  if (isSuccess && urlList !== undefined) {
+                    if (isAudioReadyList && isAudioReadyList[index] === true) {
                       return (
-                        <Message negative>
-                          <MessageHeader>エラー</MessageHeader>
-                          <MessageContent>データの取得に失敗しました。</MessageContent>
-                        </Message>
+                        <Button
+                          onClick={() =>
+                            handlePreviewButtonClick(
+                              urlList[index].mp3StreamingUrl,
+                            )
+                          }
+                        >
+                          プレビュー
+                        </Button>
                       )
                     }
-                    if (isFetching) {
-                      return (
-                        <Loader active inline="centered" size="small"/>
-                      )
-                    }
-                    if (isPending) {
-                      return null
-                    }
-                    if (isSuccess && urlList !== undefined) {
-                      if (isAudioReadyList && isAudioReadyList[index] === true) {
-                        return (
-                          <Button onClick={() => handlePreviewButtonClick(urlList[index].mp3StreamingUrl)}>
-                            プレビュー
-                          </Button>
-                        )
-                      }
-                      return (
-                        <Message negative>
-                          <MessageHeader>エラー</MessageHeader>
-                          <MessageContent>データの取得に失敗しました。</MessageContent>
-                        </Message>
-                      )
-                    }
-                  })()
-                }
+                    return (
+                      <Message negative>
+                        <MessageHeader>エラー</MessageHeader>
+                        <MessageContent>
+                          データの取得に失敗しました。
+                        </MessageContent>
+                      </Message>
+                    )
+                  }
+                })()}
               </TableCell>
               <TableCell>
-                {
-                  (() => {
-                    if (isError) {
+                {(() => {
+                  if (isError) {
+                    return (
+                      <Message negative>
+                        <MessageHeader>エラー</MessageHeader>
+                        <MessageContent>
+                          データの取得に失敗しました。
+                        </MessageContent>
+                      </Message>
+                    )
+                  }
+                  if (isFetching) {
+                    return <Loader active inline="centered" size="small" />
+                  }
+                  if (isPending) {
+                    return null
+                  }
+                  if (isSuccess && urlList !== undefined) {
+                    if (isAudioReadyList && isAudioReadyList[index] === true) {
                       return (
-                        <Message negative>
-                          <MessageHeader>エラー</MessageHeader>
-                          <MessageContent>データの取得に失敗しました。</MessageContent>
-                        </Message>
+                        <Button
+                          onClick={() =>
+                            handleSingleDownloadButtonClick(
+                              urlList[index].mp3DownloadUrl,
+                              inputText,
+                            )
+                          }
+                        >
+                          ダウンロード
+                        </Button>
                       )
                     }
-                    if (isFetching) {
-                      return (
-                        <Loader active inline="centered" size="small"/>
-                      )
-                    }
-                    if (isPending) {
-                      return null
-                    }
-                    if (isSuccess && urlList !== undefined) {
-                      if (isAudioReadyList && isAudioReadyList[index] === true) {
-                        return (
-                          <Button onClick={() => handleSingleDownloadButtonClick(urlList[index].mp3DownloadUrl, inputText)}>
-                            ダウンロード
-                          </Button>
-                        )
-                      }
-                      return (
-                        <Message negative>
-                          <MessageHeader>エラー</MessageHeader>
-                          <MessageContent>データの取得に失敗しました。</MessageContent>
-                        </Message>
-                      )
-                    }
-                  })()
-                }
+                    return (
+                      <Message negative>
+                        <MessageHeader>エラー</MessageHeader>
+                        <MessageContent>
+                          データの取得に失敗しました。
+                        </MessageContent>
+                      </Message>
+                    )
+                  }
+                })()}
               </TableCell>
             </TableRow>
           ))}
@@ -157,10 +170,8 @@ export const Preview: FC<PreviewProps> = ({
       </Table>
       <Popup
         content="今後実装予定です。"
-        trigger={
-          <Button content="全てをダウンロード"/>
-        }
+        trigger={<Button content="全てをダウンロード" />}
       />
     </Container>
-	)
+  )
 }
