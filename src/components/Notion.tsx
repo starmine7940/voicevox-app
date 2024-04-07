@@ -68,7 +68,7 @@ const accordionPanels = [
   },
   {
     key: "1",
-    title: "利用しているサービス",
+    title: "クレジット",
     content: {
       content: (
         <List bulleted>
@@ -83,20 +83,11 @@ const accordionPanels = [
           </ListItem>
           <ListItem>
             <a
-              href="https://voicevox.hiroshiba.jp/"
+              href="https://voicevox.hiroshiba.jp/product/zundamon/"
               target=" blank"
               rel=" noopener"
             >
-              VOICEVOX
-            </a>
-          </ListItem>
-          <ListItem>
-            <a
-              href="https://voicevox.hiroshiba.jp/term/"
-              target=" blank"
-              rel=" noopener"
-            >
-              VOICEVOX ソフトウェア利用規約
+              VOICEVOX: ずんだもん
             </a>
           </ListItem>
         </List>
