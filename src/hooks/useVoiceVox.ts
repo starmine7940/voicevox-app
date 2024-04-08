@@ -34,6 +34,7 @@ export const useVoiceVox = (inputTexts: string[]): UseVoiceVox => {
     urlList ? urlList.map((voiceData) => voiceData.audioStatusUrl) : undefined,
   )
 
+  // TODO: state のロジックがあっているか確認
   const isPending = isPendingGetUrlList || isPendingGetStatusList
   const isFetching = isFetchingGetUrlList || isFetchingGetStatusList
   const isSuccess = isSuccessGetUrlList && isSuccessGetStatusList

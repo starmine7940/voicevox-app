@@ -10,7 +10,7 @@ type GetStatus = {
 
 export type UseGetStatusList = Omit<UseQueryResult, "data"> & GetStatus
 
-const pollGetStatusList = async (
+const pollGetStatusList = async ( // TODO: ロジックがあっているか確認
   audioStatusUrlList: string[],
 ): Promise<boolean[]> => {
   const timeout = 300000
