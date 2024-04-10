@@ -10,18 +10,21 @@ export type UseVoiceVox = {
   isFetching: boolean
   isSuccess: boolean
   isError: boolean
-  refetchGetVoice: () => void
+  // refetchGetVoice: () => Promise<void>
+  requestGenerateVoices: (inputTexts: string[]) => Promise<void>
 }
 
-export const useVoiceVox = (inputTexts: string[]): UseVoiceVox => {
+export const useVoiceVox = (): UseVoiceVox => {
   const {
     urlList,
     isPending: isPendingGetUrlList,
     isFetching: isFetchingGetUrlList,
     isSuccess: isSuccessGetUrlList,
     isError: isErrorGetUrlList,
-    refetch: refetchGetUrlList,
-  } = useGetUrlList(inputTexts)
+    refetch: refetchGetUrlList, // eslint-disable-line
+  } = useGetUrlList([
+    /** TODO */
+  ])
 
   const {
     isAudioReadyList,
@@ -52,6 +55,8 @@ export const useVoiceVox = (inputTexts: string[]): UseVoiceVox => {
     isFetching: isFetching,
     isSuccess: isSuccess,
     isError: isError,
-    refetchGetVoice: refetchGetUrlList,
+    requestGenerateVoices: async (inputTexts: string[]) => {
+      // TODO
+    },
   }
 }

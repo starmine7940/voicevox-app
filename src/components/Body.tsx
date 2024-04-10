@@ -9,7 +9,7 @@ import { useVoiceVox } from "../hooks/useVoiceVox"
 const useStyles = createUseStyles({})
 
 export const Body: FC = () => {
-  const classes = useStyles()  // eslint-disable-line
+  const classes = useStyles() // eslint-disable-line
 
   const [inputTexts, setInputTexts] = useState<string[]>([])
   const updateInputTexts = (inputTexts: string) => {
@@ -23,15 +23,24 @@ export const Body: FC = () => {
     isFetching,
     isSuccess,
     isError,
-    refetchGetVoice,
-  } = useVoiceVox(inputTexts)
+    requestGenerateVoices,
+  } = useVoiceVox()
+
+  const handleOnRequest = async () => {
+    await requestGenerateVoices(inputTexts)
+  }
+
+  // useVoiceVoxに求める役割
+  // 入力：テキストの配列を渡す
+  // 出力：音声データの作成ステータス
+  // 出力2：音声データの作成データ（URL）
 
   return (
     <>
       <Input
         isFetching={isFetching}
         updateInputTexts={updateInputTexts}
-        refetchGetVoice={refetchGetVoice}
+        onRequest={handleOnRequest}
       />
       <Preview
         inputTexts={inputTexts}

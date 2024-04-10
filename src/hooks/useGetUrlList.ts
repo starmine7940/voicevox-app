@@ -8,7 +8,8 @@ export type UseGetUrlList = Omit<UseQueryResult, "data"> & {
   urlList: GetUrlListSuccessResult[] | undefined
 }
 
-const pollGetUrlList = async (  // TODO: ロジックがあっているか確認
+const pollGetUrlList = async (
+  // TODO: ロジックがあっているか確認
   inputTexts: string[],
 ): Promise<GetUrlListSuccessResult[] | undefined> => {
   const timeout = 300000
