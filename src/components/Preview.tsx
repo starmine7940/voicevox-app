@@ -39,6 +39,7 @@ export const Preview: FC<PreviewProps> = ({
   isSuccess,
   isError,
 }) => {
+  // eslint-disable-next-line
   const classes = useStyles()
 
   const handlePreviewButtonClick = (mp3StreamingUrl: string) => {

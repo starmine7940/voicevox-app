@@ -43,7 +43,7 @@ export const useVoiceVox = (inputTexts: string[]): UseVoiceVox => {
   // 全てのテキストの URL を取得できたら status を確認する
   useEffect(() => {
     isSuccessGetUrlList && refetchGetStatusList()
-  }, [isSuccessGetUrlList])
+  }, [isSuccessGetUrlList]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return {
     urlList: urlList,

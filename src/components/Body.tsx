@@ -9,7 +9,7 @@ import { useVoiceVox } from "../hooks/useVoiceVox"
 const useStyles = createUseStyles({})
 
 export const Body: FC = () => {
-  const classes = useStyles()
+  const classes = useStyles()  // eslint-disable-line
 
   const [inputTexts, setInputTexts] = useState<string[]>([])
   const updateInputTexts = (inputTexts: string) => {

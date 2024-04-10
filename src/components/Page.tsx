@@ -8,7 +8,7 @@ import { Body } from "./Body"
 const useStyles = createUseStyles({})
 
 export const Page: FC = () => {
-  const classes = useStyles()
+  const classes = useStyles() // eslint-disable-line
 
   return (
     <>
