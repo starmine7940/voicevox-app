@@ -30,11 +30,6 @@ export const Body: FC = () => {
     await requestGenerateVoices(inputTexts)
   }
 
-  // useVoiceVoxに求める役割
-  // 入力：テキストの配列を渡す
-  // 出力：音声データの作成ステータス
-  // 出力2：音声データの作成データ（URL）
-
   return (
     <>
       <Input

@@ -12,7 +12,7 @@ export type GetUrlListFailureResult = {
   success: boolean
   isApiKeyValid: boolean
   errorMessage: number
-  retryAfter: number
+  retryAfter: number // in seconds
 }
 
 export type GetStatusListSuccessResult = {
