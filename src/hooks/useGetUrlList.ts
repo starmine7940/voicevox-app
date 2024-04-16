@@ -48,10 +48,12 @@ const pollGetUrlList = async (
   return undefined
 }
 
-export const useGetUrlList = (): UseGetUrlList => {
-  const result = useQuery<>({
+export const useGetUrlList = (inputTexts: string[]): UseGetUrlList => {
+  const result = useQuery({
     queryKey: ["useGetUrlList"],
-    queryFn: async (inputTexts: string[]) => {
+    queryFn: async () => {
+      console.log("===========")
+      console.log(inputTexts)
       return pollGetUrlList(inputTexts)
     },
     enabled: false,

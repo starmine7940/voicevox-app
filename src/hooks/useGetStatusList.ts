@@ -10,7 +10,8 @@ type GetStatus = {
 
 export type UseGetStatusList = Omit<UseQueryResult, "data"> & GetStatus
 
-const pollGetStatusList = async ( // TODO: ロジックがあっているか確認
+const pollGetStatusList = async (
+  // TODO: ロジックがあっているか確認
   audioStatusUrlList: string[],
 ): Promise<boolean[]> => {
   const timeout = 300000
@@ -20,7 +21,7 @@ const pollGetStatusList = async ( // TODO: ロジックがあっているか確�
   while (Date.now() - startTime < timeout) {
     for (let i = 0; i < urlsNum; i++) {
       if (isAudioReadyList[i] === true) continue
-      const res = await fetch(audioStatusUrlList[i])
+      const res = await fetch(audioStatusUrlList[i] as string)
       if (res.ok) {
         const getStatusSuccessResult =
           (await res.json()) as GetStatusListSuccessResult

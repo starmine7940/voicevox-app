@@ -17,8 +17,7 @@ export const Body: FC = () => {
   }
 
   const {
-    urlList,
-    isAudioReadyList,
+    result,
     isPending,
     isFetching,
     isSuccess,
@@ -39,8 +38,7 @@ export const Body: FC = () => {
       />
       <Preview
         inputTexts={inputTexts}
-        urlList={urlList}
-        isAudioReadyList={isAudioReadyList}
+        result={result}
         isPending={isPending}
         isFetching={isFetching}
         isSuccess={isSuccess}
