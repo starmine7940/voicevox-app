@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState, useMemo } from "react"
 import { useGetUrlList } from "./useGetUrlList"
 import { useGetStatusList } from "./useGetStatusList"
 
@@ -32,8 +32,13 @@ export const useVoiceVox = (): UseVoiceVox => {
     isFetching: isFetchingGetUrlList,
     isSuccess: isSuccessGetUrlList,
     isError: isErrorGetUrlList,
-    refetch: refetchGetUrlList, // eslint-disable-line
   } = useGetUrlList(inputTexts)
+
+  const urlListMemo = useMemo(() => {
+    return urlList
+      ? urlList.map((voiceData) => voiceData.audioStatusUrl)
+      : undefined
+  }, [urlList])
 
   const {
     isAudioReadyList,
@@ -41,26 +46,13 @@ export const useVoiceVox = (): UseVoiceVox => {
     isFetching: isFetchingGetStatusList,
     isSuccess: isSuccessGetStatusList,
     isError: isErrorGetStatusList,
-    refetch: refetchGetStatusList,
-  } = useGetStatusList(
-    urlList ? urlList.map((voiceData) => voiceData.audioStatusUrl) : undefined,
-  )
+  } = useGetStatusList(urlListMemo)
 
   const isPending = isPendingGetUrlList || isPendingGetStatusList
   const isFetching = isFetchingGetUrlList || isFetchingGetStatusList
   const isSuccess = isSuccessGetUrlList && isSuccessGetStatusList
   const isError = isErrorGetUrlList || isErrorGetStatusList
 
-  useEffect(() => {
-    refetchGetUrlList()
-  }, [inputTexts]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  // 全てのテキストの URL を取得できたら status を確認する
-  useEffect(() => {
-    if (urlList?.length) {
-      refetchGetStatusList()
-    }
-  }, [urlList]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const requestGenerateVoices = async (inputTexts: string[]) => {
     setInputTexts(inputTexts)

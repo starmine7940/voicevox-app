@@ -16,15 +16,12 @@ import {
   Popup,
 } from "semantic-ui-react"
 import "semantic-ui-css/semantic.min.css"
-import { GetUrlListSuccessResult } from "../domain/type"
 import { UseVoiceBoxResult } from "../hooks/useVoiceVox"
 
 const useStyles = createUseStyles({})
 
 type PreviewProps = {
   inputTexts: string[]
-  // urlList: GetUrlListSuccessResult[] | undefined
-  // isAudioReadyList: boolean[] | undefined
   result: UseVoiceBoxResult
   isPending: boolean
   isFetching: boolean
@@ -42,11 +39,6 @@ export const Preview: FC<PreviewProps> = ({
 }) => {
   // eslint-disable-next-line
   const classes = useStyles()
-
-  console.log(result)
-  const handlePreviewButtonClick = (mp3StreamingUrl: string) => {
-    window.open(mp3StreamingUrl, "_blank")
-  }
 
   const handleSingleDownloadButtonClick = async (
     downloadUrl: string,
@@ -121,7 +113,6 @@ export const Preview: FC<PreviewProps> = ({
               <TableCell>
                 {(() => {
                   if (isError) {
-                    console.log("errorらしい")
                     return (
                       <Message negative>
                         <MessageHeader>エラー</MessageHeader>

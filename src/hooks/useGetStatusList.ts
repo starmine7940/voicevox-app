@@ -3,6 +3,7 @@ import {
   GetStatusListSuccessResult,
   GetStatusListFailureResult,
 } from "../domain/type"
+import { useEffect } from "react"
 
 type GetStatus = {
   isAudioReadyList: boolean[] | undefined
@@ -10,11 +11,13 @@ type GetStatus = {
 
 export type UseGetStatusList = Omit<UseQueryResult, "data"> & GetStatus
 
+const sleep = (msec: number) =>
+  new Promise((resolve) => setTimeout(resolve, msec))
+
 const pollGetStatusList = async (
-  // TODO: ロジックがあっているか確認
   audioStatusUrlList: string[],
 ): Promise<boolean[]> => {
-  const timeout = 300000
+  const timeout = 5 * 60 * 1000 // 5minutes
   const startTime = Date.now()
   const urlsNum = audioStatusUrlList.length
   const isAudioReadyList = [...Array(urlsNum)].map(() => false)
@@ -28,14 +31,12 @@ const pollGetStatusList = async (
         if (getStatusSuccessResult.isAudioReady === true) {
           isAudioReadyList[i] = true
         }
-        await new Promise((resolve) => setTimeout(resolve, 5000)) // 成功したら 5 秒空けて次のリクエスト
+        await sleep(5000) // 成功したら 5 秒空けて次のリクエスト
       } else {
         const getStatusFailureResult =
           (await res.json()) as GetStatusListFailureResult
         console.error("get status failed:", getStatusFailureResult)
-        await new Promise((resolve) =>
-          setTimeout(resolve, getStatusFailureResult.retryAfter * 1000),
-        ) // 失敗したら retryAfter だけ空けて次のリクエスト
+        await sleep(getStatusFailureResult.retryAfter * 1000) // 失敗したら retryAfter だけ空けて次のリクエスト
       }
     }
     if (
@@ -60,6 +61,14 @@ export const useGetStatusList = (
     enabled: false,
     retry: false,
   })
+
+  // 全てのテキストの URL を取得できたら status を確認する
+  useEffect(() => {
+    if (audioStatusUrlList && audioStatusUrlList.length > 0) {
+      result.refetch()
+    }
+  }, [audioStatusUrlList]) // eslint-disable-line react-hooks/exhaustive-deps
+
   return {
     ...result,
     isAudioReadyList: result.data,

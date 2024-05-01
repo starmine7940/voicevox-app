@@ -3,6 +3,7 @@ import {
   GetUrlListFailureResult,
   GetUrlListSuccessResult,
 } from "../domain/type"
+import { useEffect } from "react"
 
 export type UseGetUrlList = Omit<UseQueryResult, "data"> & {
   urlList: GetUrlListSuccessResult[] | undefined
@@ -12,7 +13,6 @@ const sleep = (msec: number) =>
   new Promise((resolve) => setTimeout(resolve, msec))
 
 const pollGetUrlList = async (
-  // TODO: ロジックがあっているか確認
   inputTexts: string[],
 ): Promise<GetUrlListSuccessResult[] | undefined> => {
   const timeoutMs = 5 * 60 * 1000 // 5minutes
@@ -52,13 +52,18 @@ export const useGetUrlList = (inputTexts: string[]): UseGetUrlList => {
   const result = useQuery({
     queryKey: ["useGetUrlList"],
     queryFn: async () => {
-      console.log("===========")
-      console.log(inputTexts)
       return pollGetUrlList(inputTexts)
     },
     enabled: false,
     retry: false,
   })
+
+  useEffect(() => {
+    if (inputTexts.length !== undefined && inputTexts.length > 0) {
+      result.refetch()
+    }
+  }, [inputTexts]) // eslint-disable-line react-hooks/exhaustive-deps
+  
   return {
     ...result,
     urlList: result.data,
