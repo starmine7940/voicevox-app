@@ -12,13 +12,13 @@ const useStyles = createUseStyles({
 type InputProps = {
   isFetching: boolean
   updateInputTexts: (inputTexts: string) => void
-  refetchGetVoice: () => void
+  onRequest: () => Promise<void>
 }
 
 export const Input: FC<InputProps> = ({
   isFetching,
   updateInputTexts,
-  refetchGetVoice,
+  onRequest,
 }) => {
   const classes = useStyles()
 
@@ -27,7 +27,7 @@ export const Input: FC<InputProps> = ({
   }
 
   const handleSubmitButtonClick = async () => {
-    await refetchGetVoice()
+    await onRequest()
   }
 
   return (

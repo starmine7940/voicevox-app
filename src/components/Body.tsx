@@ -9,7 +9,7 @@ import { useVoiceVox } from "../hooks/useVoiceVox"
 const useStyles = createUseStyles({})
 
 export const Body: FC = () => {
-  const classes = useStyles()
+  const classes = useStyles() // eslint-disable-line
 
   const [inputTexts, setInputTexts] = useState<string[]>([])
   const updateInputTexts = (inputTexts: string) => {
@@ -17,26 +17,28 @@ export const Body: FC = () => {
   }
 
   const {
-    urlList,
-    isAudioReadyList,
+    result,
     isPending,
     isFetching,
     isSuccess,
     isError,
-    refetchGetVoice,
-  } = useVoiceVox(inputTexts)
+    requestGenerateVoices,
+  } = useVoiceVox()
+
+  const handleOnRequest = async () => {
+    await requestGenerateVoices(inputTexts)
+  }
 
   return (
     <>
       <Input
         isFetching={isFetching}
         updateInputTexts={updateInputTexts}
-        refetchGetVoice={refetchGetVoice}
+        onRequest={handleOnRequest}
       />
       <Preview
         inputTexts={inputTexts}
-        urlList={urlList}
-        isAudioReadyList={isAudioReadyList}
+        result={result}
         isPending={isPending}
         isFetching={isFetching}
         isSuccess={isSuccess}

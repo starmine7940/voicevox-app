@@ -3,19 +3,25 @@ import {
   GetUrlListFailureResult,
   GetUrlListSuccessResult,
 } from "../domain/type"
+import { useEffect } from "react"
 
 export type UseGetUrlList = Omit<UseQueryResult, "data"> & {
   urlList: GetUrlListSuccessResult[] | undefined
 }
 
+const sleep = (msec: number) =>
+  new Promise((resolve) => setTimeout(resolve, msec))
+
 const pollGetUrlList = async (
   inputTexts: string[],
 ): Promise<GetUrlListSuccessResult[] | undefined> => {
-  const timeout = 300000
+  const timeoutMs = 5 * 60 * 1000 // 5minutes
   const startTime = Date.now()
   const textsNum = inputTexts.length
-  const getVoiceResults = [...Array(textsNum)]
-  while (Date.now() - startTime < timeout) {
+  const getVoiceResults: (GetUrlListSuccessResult | undefined)[] = [
+    ...Array(textsNum),
+  ].map(() => undefined)
+  while (Date.now() - startTime < timeoutMs) {
     for (let i = 0; i < textsNum; i++) {
       if (getVoiceResults[i] !== undefined) continue
       const res = await fetch(
@@ -24,22 +30,19 @@ const pollGetUrlList = async (
       if (res.ok) {
         const voiceSuccessResult = (await res.json()) as GetUrlListSuccessResult
         getVoiceResults[i] = voiceSuccessResult
-        await new Promise((resolve) => setTimeout(resolve, 5000)) // 成功したら 5 秒空けて次のリクエスト
+        await sleep(5000) // 成功したら 5 秒空けて次のリクエスト
       } else {
         getVoiceResults[i] = undefined
         const getVoiceFailureResult =
           (await res.json()) as GetUrlListFailureResult
         console.error("get url failed:", getVoiceFailureResult)
-        await new Promise((resolve) =>
-          setTimeout(resolve, getVoiceFailureResult.retryAfter * 1000),
-        ) // 失敗したら retryAfter だけ空けて次のリクエスト
+        // 失敗したら retryAfter だけ空けて次のリクエスト
+        await sleep(getVoiceFailureResult.retryAfter * 1000)
       }
     }
-    if (
-      getVoiceResults.some((getVoiceResult) => getVoiceResult === undefined) ===
-      false
-    ) {
-      return getVoiceResults
+    // 全部揃ったら返す
+    if (getVoiceResults.every((result) => result !== undefined)) {
+      return getVoiceResults as GetUrlListSuccessResult[]
     }
   }
   return undefined
@@ -54,6 +57,13 @@ export const useGetUrlList = (inputTexts: string[]): UseGetUrlList => {
     enabled: false,
     retry: false,
   })
+
+  useEffect(() => {
+    if (inputTexts.length !== undefined && inputTexts.length > 0) {
+      result.refetch()
+    }
+  }, [inputTexts]) // eslint-disable-line react-hooks/exhaustive-deps
+  
   return {
     ...result,
     urlList: result.data,
