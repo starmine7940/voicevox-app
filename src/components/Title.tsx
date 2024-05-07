@@ -2,6 +2,7 @@ import { createUseStyles } from "react-jss"
 import { FC } from "react"
 import { Header } from "semantic-ui-react"
 import "semantic-ui-css/semantic.min.css"
+import React from "react"
 
 const useStyles = createUseStyles({
   header: {

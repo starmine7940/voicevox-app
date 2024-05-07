@@ -5,6 +5,7 @@ import { Input } from "./Input"
 import { Preview } from "./Preview"
 
 import { useVoiceVox } from "../hooks/useVoiceVox"
+import React from "react"
 
 const useStyles = createUseStyles({})
 

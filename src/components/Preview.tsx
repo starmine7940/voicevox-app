@@ -17,6 +17,7 @@ import {
 } from "semantic-ui-react"
 import "semantic-ui-css/semantic.min.css"
 import { UseVoiceBoxResult } from "../hooks/useVoiceVox"
+import React from "react"
 
 const useStyles = createUseStyles({})
 
