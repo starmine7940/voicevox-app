@@ -12,14 +12,18 @@ const useStyles = createUseStyles({
 
 type InputProps = {
   isFetching: boolean
+  inputTexts: string[]
   updateInputTexts: (inputTexts: string) => void
   onRequest: () => Promise<void>
+  clearAllData: () => void
 }
 
 export const Input: FC<InputProps> = ({
   isFetching,
+  inputTexts,
   updateInputTexts,
   onRequest,
+  clearAllData,
 }) => {
   const classes = useStyles()
 
@@ -36,6 +40,7 @@ export const Input: FC<InputProps> = ({
 
   const handleClearButtonClick = () => {
     setCanEditTextArea(true)
+    clearAllData()
   }
 
   return (
@@ -45,6 +50,7 @@ export const Input: FC<InputProps> = ({
       </Header>
       <Form>
         <TextArea
+          value={inputTexts.join("\n")}
           placeholder="テキストを入力してください"
           onChange={handleInputTextChange}
           rows={8}

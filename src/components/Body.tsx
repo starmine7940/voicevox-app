@@ -30,12 +30,19 @@ export const Body: FC = () => {
     await requestGenerateVoices(inputTexts)
   }
 
+  const handleClearAllData = () => {
+    setInputTexts([])
+    console.log("clear all data") // TODO: useVoiceVox の情報をクリアする
+  }
+
   return (
     <>
       <Input
         isFetching={isFetching}
+        inputTexts={inputTexts}
         updateInputTexts={updateInputTexts}
         onRequest={handleOnRequest}
+        clearAllData={handleClearAllData}
       />
       <Preview
         inputTexts={inputTexts}
