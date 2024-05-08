@@ -1,4 +1,4 @@
-import { UseQueryResult, useQuery } from "@tanstack/react-query"
+import { UseQueryResult, useQuery, useQueryClient } from "@tanstack/react-query"
 import {
   GetStatusListSuccessResult,
   GetStatusListFailureResult,
@@ -7,6 +7,7 @@ import { useEffect } from "react"
 
 type GetStatus = {
   isAudioReadyList: boolean[] | undefined
+  clearUseGetStatusList: () => void
 }
 
 export type UseGetStatusList = Omit<UseQueryResult, "data"> & GetStatus
@@ -47,11 +48,13 @@ const pollGetStatusList = async (
   return isAudioReadyList
 }
 
+export const useGetStatusListQueryKey = ["useGetStatusList"]
+
 export const useGetStatusList = (
   audioStatusUrlList: string[] | undefined,
 ): UseGetStatusList => {
   const result = useQuery({
-    queryKey: ["useGetStatusList"],
+    queryKey: useGetStatusListQueryKey,
     queryFn: async () => {
       if (audioStatusUrlList === undefined) {
         return undefined
@@ -69,8 +72,14 @@ export const useGetStatusList = (
     }
   }, [audioStatusUrlList]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  const queryClient = useQueryClient()
+  const clearUseGetStatusList = () => {
+    queryClient.removeQueries({queryKey: ["useGetStatusList"]})
+  }
+
   return {
     ...result,
     isAudioReadyList: result.data,
+    clearUseGetStatusList,
   }
 }

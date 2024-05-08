@@ -5,6 +5,7 @@ import { Input } from "./Input"
 import { Preview } from "./Preview"
 
 import { useVoiceVox } from "../hooks/useVoiceVox"
+import React from "react"
 
 const useStyles = createUseStyles({})
 
@@ -23,18 +24,26 @@ export const Body: FC = () => {
     isSuccess,
     isError,
     requestGenerateVoices,
+    clearGenerateVoices,
   } = useVoiceVox()
 
   const handleOnRequest = async () => {
     await requestGenerateVoices(inputTexts)
   }
 
+  const handleClearAllData = () => {
+    setInputTexts([])
+    clearGenerateVoices()
+  }
+
   return (
     <>
       <Input
         isFetching={isFetching}
+        inputTexts={inputTexts}
         updateInputTexts={updateInputTexts}
         onRequest={handleOnRequest}
+        clearAllData={handleClearAllData}
       />
       <Preview
         inputTexts={inputTexts}

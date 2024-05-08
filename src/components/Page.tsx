@@ -4,6 +4,7 @@ import "semantic-ui-css/semantic.min.css"
 import { Title } from "./Title"
 import { Notion } from "./Notion"
 import { Body } from "./Body"
+import React from "react"
 
 const useStyles = createUseStyles({})
 
