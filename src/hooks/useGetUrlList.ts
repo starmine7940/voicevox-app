@@ -66,10 +66,10 @@ export const useGetUrlList = (inputTexts: string[]): UseGetUrlList => {
       result.refetch()
     }
   }, [inputTexts]) // eslint-disable-line react-hooks/exhaustive-deps
-  
+
   const queryClient = useQueryClient()
   const clearUseGetUrlList = () => {
-    queryClient.removeQueries({queryKey: ["useGetUrlList"]})
+    queryClient.removeQueries({ queryKey: ["useGetUrlList"] })
   }
 
   return {
