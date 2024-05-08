@@ -21,6 +21,7 @@ export type UseVoiceVox = {
   isSuccess: boolean
   isError: boolean
   requestGenerateVoices: (inputTexts: string[]) => Promise<void>
+  clearGenerateVoices: () => void
 }
 
 export const useVoiceVox = (): UseVoiceVox => {
@@ -32,6 +33,7 @@ export const useVoiceVox = (): UseVoiceVox => {
     isFetching: isFetchingGetUrlList,
     isSuccess: isSuccessGetUrlList,
     isError: isErrorGetUrlList,
+    clearUseGetUrlList,
   } = useGetUrlList(inputTexts)
 
   const urlListMemo = useMemo(() => {
@@ -46,13 +48,13 @@ export const useVoiceVox = (): UseVoiceVox => {
     isFetching: isFetchingGetStatusList,
     isSuccess: isSuccessGetStatusList,
     isError: isErrorGetStatusList,
+    clearUseGetStatusList,
   } = useGetStatusList(urlListMemo)
 
   const isPending = isPendingGetUrlList || isPendingGetStatusList
   const isFetching = isFetchingGetUrlList || isFetchingGetStatusList
   const isSuccess = isSuccessGetUrlList && isSuccessGetStatusList
   const isError = isErrorGetUrlList || isErrorGetStatusList
-
 
   const requestGenerateVoices = async (inputTexts: string[]) => {
     setInputTexts(inputTexts)
@@ -71,6 +73,12 @@ export const useVoiceVox = (): UseVoiceVox => {
     }
   })
 
+  const clearGenerateVoices = () => {
+    setInputTexts([])
+    clearUseGetUrlList()
+    clearUseGetStatusList()
+  }
+
   return {
     result: result,
     isPending: isPending,
@@ -78,5 +86,6 @@ export const useVoiceVox = (): UseVoiceVox => {
     isSuccess: isSuccess,
     isError: isError,
     requestGenerateVoices: requestGenerateVoices,
+    clearGenerateVoices: clearGenerateVoices,
   }
 }

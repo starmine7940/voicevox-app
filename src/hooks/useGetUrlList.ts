@@ -1,4 +1,4 @@
-import { UseQueryResult, useQuery } from "@tanstack/react-query"
+import { UseQueryResult, useQuery, useQueryClient } from "@tanstack/react-query"
 import {
   GetUrlListFailureResult,
   GetUrlListSuccessResult,
@@ -7,6 +7,7 @@ import { useEffect } from "react"
 
 export type UseGetUrlList = Omit<UseQueryResult, "data"> & {
   urlList: GetUrlListSuccessResult[] | undefined
+  clearUseGetUrlList: () => void
 }
 
 const sleep = (msec: number) =>
@@ -48,9 +49,11 @@ const pollGetUrlList = async (
   return undefined
 }
 
+export const useGetUrlListQueryKey = ["useGetUrlList"]
+
 export const useGetUrlList = (inputTexts: string[]): UseGetUrlList => {
   const result = useQuery({
-    queryKey: ["useGetUrlList"],
+    queryKey: useGetUrlListQueryKey,
     queryFn: async () => {
       return pollGetUrlList(inputTexts)
     },
@@ -64,8 +67,14 @@ export const useGetUrlList = (inputTexts: string[]): UseGetUrlList => {
     }
   }, [inputTexts]) // eslint-disable-line react-hooks/exhaustive-deps
   
+  const queryClient = useQueryClient()
+  const clearUseGetUrlList = () => {
+    queryClient.removeQueries({queryKey: ["useGetUrlList"]})
+  }
+
   return {
     ...result,
     urlList: result.data,
+    clearUseGetUrlList,
   }
 }

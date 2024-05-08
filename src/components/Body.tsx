@@ -24,6 +24,7 @@ export const Body: FC = () => {
     isSuccess,
     isError,
     requestGenerateVoices,
+    clearGenerateVoices,
   } = useVoiceVox()
 
   const handleOnRequest = async () => {
@@ -32,7 +33,7 @@ export const Body: FC = () => {
 
   const handleClearAllData = () => {
     setInputTexts([])
-    console.log("clear all data") // TODO: useVoiceVox の情報をクリアする
+    clearGenerateVoices()
   }
 
   return (
