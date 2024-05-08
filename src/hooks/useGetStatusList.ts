@@ -18,7 +18,7 @@ const sleep = (msec: number) =>
 const pollGetStatusList = async (
   audioStatusUrlList: string[],
 ): Promise<boolean[]> => {
-  const timeout = 5 * 60 * 1000 // 5minutes
+  const timeout = 5 * 60 * 1000 // 5 minutes
   const startTime = Date.now()
   const urlsNum = audioStatusUrlList.length
   const isAudioReadyList = [...Array(urlsNum)].map(() => false)
@@ -74,7 +74,7 @@ export const useGetStatusList = (
 
   const queryClient = useQueryClient()
   const clearUseGetStatusList = () => {
-    queryClient.removeQueries({queryKey: ["useGetStatusList"]})
+    queryClient.removeQueries({ queryKey: ["useGetStatusList"] })
   }
 
   return {

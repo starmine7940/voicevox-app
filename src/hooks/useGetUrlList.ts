@@ -16,7 +16,7 @@ const sleep = (msec: number) =>
 const pollGetUrlList = async (
   inputTexts: string[],
 ): Promise<GetUrlListSuccessResult[] | undefined> => {
-  const timeoutMs = 5 * 60 * 1000 // 5minutes
+  const timeoutMs = 5 * 60 * 1000 // 5 minutes
   const startTime = Date.now()
   const textsNum = inputTexts.length
   const getVoiceResults: (GetUrlListSuccessResult | undefined)[] = [
@@ -66,10 +66,10 @@ export const useGetUrlList = (inputTexts: string[]): UseGetUrlList => {
       result.refetch()
     }
   }, [inputTexts]) // eslint-disable-line react-hooks/exhaustive-deps
-  
+
   const queryClient = useQueryClient()
   const clearUseGetUrlList = () => {
-    queryClient.removeQueries({queryKey: ["useGetUrlList"]})
+    queryClient.removeQueries({ queryKey: ["useGetUrlList"] })
   }
 
   return {

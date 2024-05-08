@@ -23,6 +23,7 @@ const accordionPanels = [
           <Header>生成される音声データ</Header>
           <List bulleted>
             <ListItem>全て MP3 ファイルです。</ListItem>
+            <ListItem>改行するごとに別の音声ファイルに分かれます。</ListItem>
             <ListItem>
               ダウンロードされるファイル名は、入力されたテキストの先頭 10
               文字です。

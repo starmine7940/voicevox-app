@@ -64,9 +64,9 @@ export const Preview: FC<PreviewProps> = ({
       <Table celled textAlign="center">
         <TableHeader>
           <TableRow>
-            <TableHeaderCell width={2}>テキスト</TableHeaderCell>
-            <TableHeaderCell width={1}>プレビュー</TableHeaderCell>
-            <TableHeaderCell width={1}>ダウンロード</TableHeaderCell>
+            <TableHeaderCell width={8}>テキスト</TableHeaderCell>
+            <TableHeaderCell width={4}>プレビュー</TableHeaderCell>
+            <TableHeaderCell width={4}>ダウンロード ( MP3 )</TableHeaderCell>
           </TableRow>
         </TableHeader>
         <TableBody>

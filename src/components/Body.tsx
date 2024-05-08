@@ -3,7 +3,6 @@ import { FC, useState } from "react"
 import "semantic-ui-css/semantic.min.css"
 import { Input } from "./Input"
 import { Preview } from "./Preview"
-
 import { useVoiceVox } from "../hooks/useVoiceVox"
 import React from "react"
 
