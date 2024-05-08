@@ -48,7 +48,7 @@ export const Input: FC<InputProps> = ({
       <Form>
         <TextArea
           value={inputTexts.join("\n")}
-          placeholder="テキストを入力してください"
+          placeholder="ずんだもんボイスに変換したいテキストを入力してください。改行するごとに別の音声ファイルに分かれます。"
           onChange={handleInputTextChange}
           rows={8}
           disabled={!canEditTextArea}
