@@ -27,19 +27,19 @@ export const Input: FC<InputProps> = ({
 }) => {
   const classes = useStyles()
 
-  const [canEditTextArea, setCanEditTextArea] = useState<boolean>(true)
+  const [isClickedCreateButton, setIsClickedCreateButton] = useState<boolean>(false)
 
   const handleInputTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     updateInputTexts(event.target.value)
   }
 
   const handleCreateButtonClick = async () => {
-    setCanEditTextArea(false)
+    setIsClickedCreateButton(true)
     await onRequest()
   }
 
   const handleClearButtonClick = () => {
-    setCanEditTextArea(true)
+    setIsClickedCreateButton(false)
     clearAllData()
   }
 
@@ -51,19 +51,19 @@ export const Input: FC<InputProps> = ({
           placeholder="ずんだもんボイスに変換したいテキストを入力してください。改行するごとに別の音声ファイルに分かれます。"
           onChange={handleInputTextChange}
           rows={8}
-          disabled={!canEditTextArea}
+          disabled={isClickedCreateButton}
         />
       </Form>
       <div className={classes.buttonContainer}>
         <Button
           content="生成"
           onClick={handleCreateButtonClick}
-          disabled={isFetching}
+          disabled={isFetching || isClickedCreateButton || inputTexts.length === 0}
         />
         <Button
           content="クリア"
           onClick={handleClearButtonClick}
-          disabled={isFetching}
+          disabled={isFetching || !isClickedCreateButton}
         />
       </div>
     </Container>
