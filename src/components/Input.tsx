@@ -33,7 +33,7 @@ export const Input: FC<InputProps> = ({
     updateInputTexts(event.target.value)
   }
 
-  const handleSubmitButtonClick = async () => {
+  const handleCreateButtonClick = async () => {
     setCanEditTextArea(false)
     await onRequest()
   }
@@ -56,8 +56,8 @@ export const Input: FC<InputProps> = ({
       </Form>
       <div className={classes.buttonContainer}>
         <Button
-          content="決定"
-          onClick={handleSubmitButtonClick}
+          content="生成"
+          onClick={handleCreateButtonClick}
           disabled={isFetching}
         />
         <Button
