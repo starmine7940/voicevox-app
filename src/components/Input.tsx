@@ -45,9 +45,6 @@ export const Input: FC<InputProps> = ({
 
   return (
     <Container>
-      <Header>
-        ずんだもんボイスに変換したいテキストを入力してください。改行するごとに別の音声ファイルに分かれます。
-      </Header>
       <Form>
         <TextArea
           value={inputTexts.join("\n")}
