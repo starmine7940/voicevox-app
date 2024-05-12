@@ -13,7 +13,7 @@ const useStyles = createUseStyles({
 type InputProps = {
   isFetching: boolean
   inputTexts: string[]
-  updateInputTexts: (inputTexts: string) => void
+  updateInputTexts: (inputText: string) => void
   onRequest: () => Promise<void>
   clearAllData: () => void
 }
