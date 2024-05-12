@@ -12,8 +12,13 @@ export const Body: FC = () => {
   const classes = useStyles() // eslint-disable-line
 
   const [inputTexts, setInputTexts] = useState<string[]>([])
-  const updateInputTexts = (inputTexts: string) => {
-    setInputTexts(inputTexts.split("\n"))
+  const updateInputTexts = (inputText: string) => {
+    const inputTexts = inputText.split("\n")
+    if (inputTexts.length === 1 && inputTexts[0] === "") {
+      setInputTexts([])
+      return
+    }
+    setInputTexts(inputTexts)
   }
 
   const {
@@ -27,8 +32,9 @@ export const Body: FC = () => {
   } = useVoiceVox()
 
   const handleOnRequest = async () => {
-    await requestGenerateVoices(inputTexts)
-  }
+    setInputTexts(inputTexts.filter((inputText) => inputText !== ""))
+    await requestGenerateVoices(inputTexts.filter((inputText) => inputText !== ""))
+  } // FIXME
 
   const handleClearAllData = () => {
     setInputTexts([])
