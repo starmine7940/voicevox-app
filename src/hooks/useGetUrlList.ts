@@ -69,7 +69,7 @@ export const useGetUrlList = (inputTexts: string[]): UseGetUrlList => {
 
   const queryClient = useQueryClient()
   const clearUseGetUrlList = () => {
-    queryClient.removeQueries({ queryKey: ["useGetUrlList"] })
+    queryClient.resetQueries({ queryKey: ["useGetUrlList"] })
   }
 
   return {

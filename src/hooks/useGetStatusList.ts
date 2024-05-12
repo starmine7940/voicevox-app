@@ -74,7 +74,7 @@ export const useGetStatusList = (
 
   const queryClient = useQueryClient()
   const clearUseGetStatusList = () => {
-    queryClient.removeQueries({ queryKey: ["useGetStatusList"] })
+    queryClient.resetQueries({ queryKey: ["useGetStatusList"] })
   }
 
   return {
