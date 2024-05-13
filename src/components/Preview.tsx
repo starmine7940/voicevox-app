@@ -94,7 +94,7 @@ export const Preview: FC<PreviewProps> = ({
           <TableRow>
             <TableHeaderCell width={8}>テキスト</TableHeaderCell>
             <TableHeaderCell width={4}>プレビュー</TableHeaderCell>
-            <TableHeaderCell width={4}>ダウンロード ( MP3 )</TableHeaderCell>
+            <TableHeaderCell width={4}>ダウンロード</TableHeaderCell>
           </TableRow>
         </TableHeader>
         <TableBody>
