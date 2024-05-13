@@ -57,7 +57,7 @@ export const useVoiceVox = (): UseVoiceVox => {
   const isError = isErrorGetUrlList || isErrorGetStatusList
 
   const requestGenerateVoices = async (inputTexts: string[]) => {
-    setInputTexts(inputTexts)
+    setInputTexts(inputTexts.filter((text) => text !== ""))
   }
 
   const result = urlList?.map((voiceData, index) => {

@@ -70,96 +70,101 @@ export const Preview: FC<PreviewProps> = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {inputTexts.map((inputText, index) => (
-            <TableRow key={index}>
-              <TableCell textAlign="left">{inputText}</TableCell>
-              <TableCell>
-                {(() => {
-                  if (isError) {
-                    return (
-                      <Message negative>
-                        <MessageHeader>エラー</MessageHeader>
-                        <MessageContent>
-                          データの取得に失敗しました。
-                        </MessageContent>
-                      </Message>
-                    )
-                  }
-                  if (isFetching) {
-                    return <Loader active inline="centered" size="small" />
-                  }
-                  if (isPending || result?.length === 0) {
-                    return null
-                  }
-                  if (isSuccess && result !== undefined) {
-                    if (
-                      result[index]?.requestSuccess &&
-                      result[index]?.audioGenerateSuccess
-                    ) {
+          {inputTexts
+            .filter((inputText) => inputText !== "")
+            .map((inputText, index) => (
+              <TableRow key={index}>
+                <TableCell textAlign="left">{inputText}</TableCell>
+                <TableCell>
+                  {(() => {
+                    if (isError) {
                       return (
-                        <audio controls src={result[index]?.mp3StreamingUrl} />
+                        <Message negative>
+                          <MessageHeader>エラー</MessageHeader>
+                          <MessageContent>
+                            データの取得に失敗しました。
+                          </MessageContent>
+                        </Message>
                       )
                     }
-                    return (
-                      <Message negative>
-                        <MessageHeader>エラー</MessageHeader>
-                        <MessageContent>
-                          データの取得に失敗しました。
-                        </MessageContent>
-                      </Message>
-                    )
-                  }
-                })()}
-              </TableCell>
-              <TableCell>
-                {(() => {
-                  if (isError) {
-                    return (
-                      <Message negative>
-                        <MessageHeader>エラー</MessageHeader>
-                        <MessageContent>
-                          データの取得に失敗しました。
-                        </MessageContent>
-                      </Message>
-                    )
-                  }
-                  if (isFetching) {
-                    return <Loader active inline="centered" size="small" />
-                  }
-                  if (isPending || result?.length === 0) {
-                    return null
-                  }
-                  if (isSuccess && result !== undefined) {
-                    if (
-                      result[index]?.audioGenerateSuccess &&
-                      result[index]?.mp3DownloadUrl !== undefined
-                    ) {
+                    if (isFetching) {
+                      return <Loader active inline="centered" size="small" />
+                    }
+                    if (isPending || result?.length === 0) {
+                      return null
+                    }
+                    if (isSuccess && result !== undefined) {
+                      if (
+                        result[index]?.requestSuccess &&
+                        result[index]?.audioGenerateSuccess
+                      ) {
+                        return (
+                          <audio
+                            controls
+                            src={result[index]?.mp3StreamingUrl}
+                          />
+                        )
+                      }
                       return (
-                        <Button
-                          onClick={() =>
-                            handleSingleDownloadButtonClick(
-                              result[index]?.mp3DownloadUrl ?? "",
-                              inputText,
-                            )
-                          }
-                        >
-                          ダウンロード
-                        </Button>
+                        <Message negative>
+                          <MessageHeader>エラー</MessageHeader>
+                          <MessageContent>
+                            データの取得に失敗しました。
+                          </MessageContent>
+                        </Message>
                       )
                     }
-                    return (
-                      <Message negative>
-                        <MessageHeader>エラー</MessageHeader>
-                        <MessageContent>
-                          データの取得に失敗しました。
-                        </MessageContent>
-                      </Message>
-                    )
-                  }
-                })()}
-              </TableCell>
-            </TableRow>
-          ))}
+                  })()}
+                </TableCell>
+                <TableCell>
+                  {(() => {
+                    if (isError) {
+                      return (
+                        <Message negative>
+                          <MessageHeader>エラー</MessageHeader>
+                          <MessageContent>
+                            データの取得に失敗しました。
+                          </MessageContent>
+                        </Message>
+                      )
+                    }
+                    if (isFetching) {
+                      return <Loader active inline="centered" size="small" />
+                    }
+                    if (isPending || result?.length === 0) {
+                      return null
+                    }
+                    if (isSuccess && result !== undefined) {
+                      if (
+                        result[index]?.audioGenerateSuccess &&
+                        result[index]?.mp3DownloadUrl !== undefined
+                      ) {
+                        return (
+                          <Button
+                            onClick={() =>
+                              handleSingleDownloadButtonClick(
+                                result[index]?.mp3DownloadUrl ?? "",
+                                inputText,
+                              )
+                            }
+                          >
+                            ダウンロード
+                          </Button>
+                        )
+                      }
+                      return (
+                        <Message negative>
+                          <MessageHeader>エラー</MessageHeader>
+                          <MessageContent>
+                            データの取得に失敗しました。
+                          </MessageContent>
+                        </Message>
+                      )
+                    }
+                  })()}
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
       <Popup

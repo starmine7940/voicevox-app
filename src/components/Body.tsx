@@ -32,9 +32,8 @@ export const Body: FC = () => {
   } = useVoiceVox()
 
   const handleOnRequest = async () => {
-    setInputTexts(inputTexts.filter((inputText) => inputText !== ""))
-    await requestGenerateVoices(inputTexts.filter((inputText) => inputText !== ""))
-  } // FIXME
+    await requestGenerateVoices(inputTexts)
+  }
 
   const handleClearAllData = () => {
     setInputTexts([])
