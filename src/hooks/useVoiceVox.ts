@@ -2,17 +2,17 @@ import { useState, useMemo } from "react"
 import { useGetUrlList } from "./useGetUrlList"
 import { useGetStatusList } from "./useGetStatusList"
 
-export type UseVoiceBoxResult =
-  | {
-      inputText: string
-      requestSuccess: boolean
-      audioGenerateSuccess: boolean
-      speakerName: string
-      wavDownloadUrl: string
-      mp3DownloadUrl: string
-      mp3StreamingUrl: string
-    }[]
-  | undefined
+export type UseVoiceBoxSuccessResult = {
+  inputText: string
+  requestSuccess: boolean
+  audioGenerateSuccess: boolean
+  speakerName: string
+  wavDownloadUrl: string
+  mp3DownloadUrl: string
+  mp3StreamingUrl: string
+}[]
+
+export type UseVoiceBoxResult = UseVoiceBoxSuccessResult | undefined
 
 export type UseVoiceVox = {
   result: UseVoiceBoxResult
