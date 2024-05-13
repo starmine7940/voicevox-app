@@ -13,11 +13,11 @@ import {
   MessageHeader,
   MessageContent,
   Container,
-  Popup,
 } from "semantic-ui-react"
 import "semantic-ui-css/semantic.min.css"
-import { UseVoiceBoxResult } from "../hooks/useVoiceVox"
+import { UseVoiceBoxResult, UseVoiceBoxSuccessResult } from "../hooks/useVoiceVox"
 import React from "react"
+import JSZip from "jszip"
 
 const useStyles = createUseStyles({})
 
@@ -57,6 +57,34 @@ export const Preview: FC<PreviewProps> = ({
     } catch (error) {
       console.error("single download failed:", error)
     }
+  }
+
+  const handleBulkDownloadButtonClick = async (
+    result: UseVoiceBoxSuccessResult,
+  ) => {
+    const zip = new JSZip()
+
+    for (const item of result) {
+      if (item.audioGenerateSuccess) {
+        try {
+          const response = await fetch(item.mp3DownloadUrl)
+          const blob = await response.blob()
+          const fileName = `${item.inputText.slice(0, 10)}.mp3`
+          zip.file(fileName, blob);
+        } catch (error) {
+          console.error("bulk download failed:", error)
+        }
+      }
+    }
+  
+    zip.generateAsync({ type: "blob" }).then(function (content) {
+      const zipUrl = window.URL.createObjectURL(content)
+      const a = document.createElement("a")
+      a.href = zipUrl
+      a.download = "voices.zip"
+      a.click()
+      window.URL.revokeObjectURL(zipUrl)
+    })
   }
 
   return (
@@ -167,9 +195,14 @@ export const Preview: FC<PreviewProps> = ({
             ))}
         </TableBody>
       </Table>
-      <Popup
-        content="今後実装予定です。"
-        trigger={<Button content="全てをダウンロード" />}
+      <Button
+        content="全てをダウンロード"
+        onClick={() =>
+          handleBulkDownloadButtonClick(
+            result ?? ([] as UseVoiceBoxSuccessResult),
+          )
+        }
+        disabled={isFetching || isPending || result?.length === 0}
       />
     </Container>
   )
