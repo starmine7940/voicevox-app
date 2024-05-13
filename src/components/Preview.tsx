@@ -9,15 +9,13 @@ import {
   TableHeaderCell,
   TableBody,
   TableCell,
-  Message,
-  MessageHeader,
-  MessageContent,
   Container,
 } from "semantic-ui-react"
 import "semantic-ui-css/semantic.min.css"
 import { UseVoiceBoxResult, UseVoiceBoxSuccessResult } from "../hooks/useVoiceVox"
 import React from "react"
 import JSZip from "jszip"
+import { ErrorMessage } from "./ErrorMessage"
 
 const useStyles = createUseStyles({})
 
@@ -106,14 +104,7 @@ export const Preview: FC<PreviewProps> = ({
                 <TableCell>
                   {(() => {
                     if (isError) {
-                      return (
-                        <Message negative>
-                          <MessageHeader>エラー</MessageHeader>
-                          <MessageContent>
-                            データの取得に失敗しました。
-                          </MessageContent>
-                        </Message>
-                      )
+                      return <ErrorMessage />
                     }
                     if (isFetching) {
                       return <Loader active inline="centered" size="small" />
@@ -133,28 +124,14 @@ export const Preview: FC<PreviewProps> = ({
                           />
                         )
                       }
-                      return (
-                        <Message negative>
-                          <MessageHeader>エラー</MessageHeader>
-                          <MessageContent>
-                            データの取得に失敗しました。
-                          </MessageContent>
-                        </Message>
-                      )
+                      return <ErrorMessage />
                     }
                   })()}
                 </TableCell>
                 <TableCell>
                   {(() => {
                     if (isError) {
-                      return (
-                        <Message negative>
-                          <MessageHeader>エラー</MessageHeader>
-                          <MessageContent>
-                            データの取得に失敗しました。
-                          </MessageContent>
-                        </Message>
-                      )
+                      return <ErrorMessage />
                     }
                     if (isFetching) {
                       return <Loader active inline="centered" size="small" />
@@ -180,14 +157,7 @@ export const Preview: FC<PreviewProps> = ({
                           </Button>
                         )
                       }
-                      return (
-                        <Message negative>
-                          <MessageHeader>エラー</MessageHeader>
-                          <MessageContent>
-                            データの取得に失敗しました。
-                          </MessageContent>
-                        </Message>
-                      )
+                      return <ErrorMessage />
                     }
                   })()}
                 </TableCell>
