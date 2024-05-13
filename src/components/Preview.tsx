@@ -12,7 +12,10 @@ import {
   Container,
 } from "semantic-ui-react"
 import "semantic-ui-css/semantic.min.css"
-import { UseVoiceBoxResult, UseVoiceBoxSuccessResult } from "../hooks/useVoiceVox"
+import {
+  UseVoiceBoxResult,
+  UseVoiceBoxSuccessResult,
+} from "../hooks/useVoiceVox"
 import React from "react"
 import JSZip from "jszip"
 import { ErrorMessage } from "./ErrorMessage"
@@ -36,8 +39,7 @@ export const Preview: FC<PreviewProps> = ({
   isSuccess,
   isError,
 }) => {
-  // eslint-disable-next-line
-  const classes = useStyles()
+  const classes = useStyles() // eslint-disable-line
 
   const handleSingleDownloadButtonClick = async (
     downloadUrl: string,
@@ -68,13 +70,13 @@ export const Preview: FC<PreviewProps> = ({
           const response = await fetch(item.mp3DownloadUrl)
           const blob = await response.blob()
           const fileName = `${item.inputText.slice(0, 10)}.mp3`
-          zip.file(fileName, blob);
+          zip.file(fileName, blob)
         } catch (error) {
           console.error("bulk download failed:", error)
         }
       }
     }
-  
+
     zip.generateAsync({ type: "blob" }).then(function (content) {
       const zipUrl = window.URL.createObjectURL(content)
       const a = document.createElement("a")

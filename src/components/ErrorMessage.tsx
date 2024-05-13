@@ -12,9 +12,7 @@ export const ErrorMessage: FC = () => {
   return (
     <Message negative>
       <MessageHeader>エラー</MessageHeader>
-      <MessageContent>
-        データの取得に失敗しました。
-      </MessageContent>
+      <MessageContent>データの取得に失敗しました。</MessageContent>
     </Message>
   )
 }

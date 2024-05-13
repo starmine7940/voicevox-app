@@ -27,7 +27,8 @@ export const Input: FC<InputProps> = ({
 }) => {
   const classes = useStyles()
 
-  const [isClickedCreateButton, setIsClickedCreateButton] = useState<boolean>(false)
+  const [isClickedCreateButton, setIsClickedCreateButton] =
+    useState<boolean>(false)
 
   const handleInputTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     updateInputTexts(event.target.value)
@@ -58,7 +59,9 @@ export const Input: FC<InputProps> = ({
         <Button
           content="生成"
           onClick={handleCreateButtonClick}
-          disabled={isFetching || isClickedCreateButton || inputTexts.length === 0}
+          disabled={
+            isFetching || isClickedCreateButton || inputTexts.length === 0
+          }
         />
         <Button
           content="クリア"
