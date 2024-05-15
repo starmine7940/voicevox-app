@@ -8,6 +8,9 @@ const useStyles = createUseStyles({
   buttonContainer: {
     margin: "1em 0em",
   },
+  disabled: {
+    cursor: "not-allowed",
+  },
 })
 
 type InputProps = {
@@ -48,6 +51,7 @@ export const Input: FC<InputProps> = ({
     <Container>
       <Form>
         <TextArea
+          className={isClickedCreateButton ? classes.disabled : ""}
           value={inputTexts.join("\n")}
           placeholder="ずんだもんボイスに変換したいテキストを入力してください。改行するごとに別の音声ファイルに分かれます。"
           onChange={handleInputTextChange}

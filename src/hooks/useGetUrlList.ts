@@ -22,11 +22,12 @@ const pollGetUrlList = async (
   const getVoiceResults: (GetUrlListSuccessResult | undefined)[] = [
     ...Array(textsNum),
   ].map(() => undefined)
-  while (Date.now() - startTime < timeoutMs) {
+
+  outerLoop: while (Date.now() - startTime < timeoutMs) {
     for (let i = 0; i < textsNum; i++) {
       if (getVoiceResults[i] !== undefined) continue
       const res = await fetch(
-        `https://api.tts.quest/v3/voicevox/synthesis?text=${inputTexts[i]}&speaker=3`, //ずんだもん（ノーマル）
+        `https://api.tts.quest/v3/voicevox/synthesis?text=${inputTexts[i]}&speaker=3`, // ずんだもん（ノーマル）
       )
       if (res.ok) {
         const voiceSuccessResult = (await res.json()) as GetUrlListSuccessResult
@@ -37,8 +38,8 @@ const pollGetUrlList = async (
         const getVoiceFailureResult =
           (await res.json()) as GetUrlListFailureResult
         console.error("get url failed:", getVoiceFailureResult)
-        // 失敗したら retryAfter だけ空けて次のリクエスト
-        await sleep(getVoiceFailureResult.retryAfter * 1000)
+        if (!getVoiceFailureResult.retryAfter) break outerLoop // retryAfter がない場合は全体を終了
+        await sleep(getVoiceFailureResult.retryAfter * 1000) // 失敗したら retryAfter だけ空けて次のリクエスト
       }
     }
     // 全部揃ったら返す
@@ -46,7 +47,6 @@ const pollGetUrlList = async (
       return getVoiceResults as GetUrlListSuccessResult[]
     }
   }
-  return undefined
 }
 
 export const useGetUrlListQueryKey = ["useGetUrlList"]

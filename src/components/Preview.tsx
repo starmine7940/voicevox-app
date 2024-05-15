@@ -174,7 +174,12 @@ export const Preview: FC<PreviewProps> = ({
             result ?? ([] as UseVoiceBoxSuccessResult),
           )
         }
-        disabled={isFetching || isPending || result?.length === 0}
+        disabled={
+          isFetching ||
+          isPending ||
+          result?.length === 0 ||
+          result?.every((item) => !item.audioGenerateSuccess)
+        }
       />
     </Container>
   )
