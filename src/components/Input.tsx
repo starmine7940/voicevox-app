@@ -8,12 +8,15 @@ const useStyles = createUseStyles({
   buttonContainer: {
     margin: "1em 0em",
   },
+  disabled: {
+    cursor: "not-allowed",
+  },
 })
 
 type InputProps = {
   isFetching: boolean
   inputTexts: string[]
-  updateInputTexts: (inputTexts: string) => void
+  updateInputTexts: (inputText: string) => void
   onRequest: () => Promise<void>
   clearAllData: () => void
 }
@@ -27,7 +30,8 @@ export const Input: FC<InputProps> = ({
 }) => {
   const classes = useStyles()
 
-  const [isClickedCreateButton, setIsClickedCreateButton] = useState<boolean>(false)
+  const [isClickedCreateButton, setIsClickedCreateButton] =
+    useState<boolean>(false)
 
   const handleInputTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     updateInputTexts(event.target.value)
@@ -47,6 +51,7 @@ export const Input: FC<InputProps> = ({
     <Container>
       <Form>
         <TextArea
+          className={isClickedCreateButton ? classes.disabled : ""}
           value={inputTexts.join("\n")}
           placeholder="ずんだもんボイスに変換したいテキストを入力してください。改行するごとに別の音声ファイルに分かれます。"
           onChange={handleInputTextChange}
@@ -58,7 +63,9 @@ export const Input: FC<InputProps> = ({
         <Button
           content="生成"
           onClick={handleCreateButtonClick}
-          disabled={isFetching || isClickedCreateButton || inputTexts.length === 0}
+          disabled={
+            isFetching || isClickedCreateButton || inputTexts.length === 0
+          }
         />
         <Button
           content="クリア"

@@ -9,15 +9,16 @@ import {
   TableHeaderCell,
   TableBody,
   TableCell,
-  Message,
-  MessageHeader,
-  MessageContent,
   Container,
-  Popup,
 } from "semantic-ui-react"
 import "semantic-ui-css/semantic.min.css"
-import { UseVoiceBoxResult } from "../hooks/useVoiceVox"
+import {
+  UseVoiceBoxResult,
+  UseVoiceBoxSuccessResult,
+} from "../hooks/useVoiceVox"
 import React from "react"
+import JSZip from "jszip"
+import { ErrorMessage } from "./ErrorMessage"
 
 const useStyles = createUseStyles({})
 
@@ -38,8 +39,7 @@ export const Preview: FC<PreviewProps> = ({
   isSuccess,
   isError,
 }) => {
-  // eslint-disable-next-line
-  const classes = useStyles()
+  const classes = useStyles() // eslint-disable-line
 
   const handleSingleDownloadButtonClick = async (
     downloadUrl: string,
@@ -59,6 +59,34 @@ export const Preview: FC<PreviewProps> = ({
     }
   }
 
+  const handleBulkDownloadButtonClick = async (
+    result: UseVoiceBoxSuccessResult,
+  ) => {
+    const zip = new JSZip()
+
+    for (const item of result) {
+      if (item.audioGenerateSuccess) {
+        try {
+          const response = await fetch(item.mp3DownloadUrl)
+          const blob = await response.blob()
+          const fileName = `${item.inputText.slice(0, 10)}.mp3`
+          zip.file(fileName, blob)
+        } catch (error) {
+          console.error("bulk download failed:", error)
+        }
+      }
+    }
+
+    zip.generateAsync({ type: "blob" }).then(function (content) {
+      const zipUrl = window.URL.createObjectURL(content)
+      const a = document.createElement("a")
+      a.href = zipUrl
+      a.download = "voices.zip"
+      a.click()
+      window.URL.revokeObjectURL(zipUrl)
+    })
+  }
+
   return (
     <Container>
       <Table celled textAlign="center">
@@ -66,105 +94,92 @@ export const Preview: FC<PreviewProps> = ({
           <TableRow>
             <TableHeaderCell width={8}>テキスト</TableHeaderCell>
             <TableHeaderCell width={4}>プレビュー</TableHeaderCell>
-            <TableHeaderCell width={4}>ダウンロード ( MP3 )</TableHeaderCell>
+            <TableHeaderCell width={4}>ダウンロード</TableHeaderCell>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {inputTexts.map((inputText, index) => (
-            <TableRow key={index}>
-              <TableCell textAlign="left">{inputText}</TableCell>
-              <TableCell>
-                {(() => {
-                  if (isError) {
-                    return (
-                      <Message negative>
-                        <MessageHeader>エラー</MessageHeader>
-                        <MessageContent>
-                          データの取得に失敗しました。
-                        </MessageContent>
-                      </Message>
-                    )
-                  }
-                  if (isFetching) {
-                    return <Loader active inline="centered" size="small" />
-                  }
-                  if (isPending || result?.length === 0) {
-                    return null
-                  }
-                  if (isSuccess && result !== undefined) {
-                    if (
-                      result[index]?.requestSuccess &&
-                      result[index]?.audioGenerateSuccess
-                    ) {
-                      return (
-                        <audio controls src={result[index]?.mp3StreamingUrl} />
-                      )
+          {inputTexts
+            .filter((inputText) => inputText !== "")
+            .map((inputText, index) => (
+              <TableRow key={index}>
+                <TableCell textAlign="left">{inputText}</TableCell>
+                <TableCell>
+                  {(() => {
+                    if (isError) {
+                      return <ErrorMessage />
                     }
-                    return (
-                      <Message negative>
-                        <MessageHeader>エラー</MessageHeader>
-                        <MessageContent>
-                          データの取得に失敗しました。
-                        </MessageContent>
-                      </Message>
-                    )
-                  }
-                })()}
-              </TableCell>
-              <TableCell>
-                {(() => {
-                  if (isError) {
-                    return (
-                      <Message negative>
-                        <MessageHeader>エラー</MessageHeader>
-                        <MessageContent>
-                          データの取得に失敗しました。
-                        </MessageContent>
-                      </Message>
-                    )
-                  }
-                  if (isFetching) {
-                    return <Loader active inline="centered" size="small" />
-                  }
-                  if (isPending || result?.length === 0) {
-                    return null
-                  }
-                  if (isSuccess && result !== undefined) {
-                    if (
-                      result[index]?.audioGenerateSuccess &&
-                      result[index]?.mp3DownloadUrl !== undefined
-                    ) {
-                      return (
-                        <Button
-                          onClick={() =>
-                            handleSingleDownloadButtonClick(
-                              result[index]?.mp3DownloadUrl ?? "",
-                              inputText,
-                            )
-                          }
-                        >
-                          ダウンロード
-                        </Button>
-                      )
+                    if (isFetching) {
+                      return <Loader active inline="centered" size="small" />
                     }
-                    return (
-                      <Message negative>
-                        <MessageHeader>エラー</MessageHeader>
-                        <MessageContent>
-                          データの取得に失敗しました。
-                        </MessageContent>
-                      </Message>
-                    )
-                  }
-                })()}
-              </TableCell>
-            </TableRow>
-          ))}
+                    if (isPending || result?.length === 0) {
+                      return null
+                    }
+                    if (isSuccess && result !== undefined) {
+                      if (
+                        result[index]?.requestSuccess &&
+                        result[index]?.audioGenerateSuccess
+                      ) {
+                        return (
+                          <audio
+                            controls
+                            src={result[index]?.mp3StreamingUrl}
+                          />
+                        )
+                      }
+                      return <ErrorMessage />
+                    }
+                  })()}
+                </TableCell>
+                <TableCell>
+                  {(() => {
+                    if (isError) {
+                      return <ErrorMessage />
+                    }
+                    if (isFetching) {
+                      return <Loader active inline="centered" size="small" />
+                    }
+                    if (isPending || result?.length === 0) {
+                      return null
+                    }
+                    if (isSuccess && result !== undefined) {
+                      if (
+                        result[index]?.audioGenerateSuccess &&
+                        result[index]?.mp3DownloadUrl !== undefined
+                      ) {
+                        return (
+                          <Button
+                            onClick={() =>
+                              handleSingleDownloadButtonClick(
+                                result[index]?.mp3DownloadUrl ?? "",
+                                inputText,
+                              )
+                            }
+                          >
+                            ダウンロード
+                          </Button>
+                        )
+                      }
+                      return <ErrorMessage />
+                    }
+                  })()}
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
-      <Popup
-        content="今後実装予定です。"
-        trigger={<Button content="全てをダウンロード" />}
+      <Button
+        content="全てをダウンロード"
+        onClick={() =>
+          handleBulkDownloadButtonClick(
+            result ?? ([] as UseVoiceBoxSuccessResult),
+          )
+        }
+        disabled={
+          isFetching ||
+          isPending ||
+          result?.length === 0 ||
+          result?.every((item) => !item.audioGenerateSuccess)
+        }
       />
     </Container>
   )

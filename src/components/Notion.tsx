@@ -100,6 +100,7 @@ const accordionPanels = [
 
 export const Notion: FC = () => {
   const classes = useStyles() // eslint-disable-line
+  
   return (
     <Container>
       <Divider />

@@ -22,7 +22,7 @@ const pollGetStatusList = async (
   const startTime = Date.now()
   const urlsNum = audioStatusUrlList.length
   const isAudioReadyList = [...Array(urlsNum)].map(() => false)
-  while (Date.now() - startTime < timeout) {
+  outerLoop: while (Date.now() - startTime < timeout) {
     for (let i = 0; i < urlsNum; i++) {
       if (isAudioReadyList[i] === true) continue
       const res = await fetch(audioStatusUrlList[i] as string)
@@ -37,6 +37,7 @@ const pollGetStatusList = async (
         const getStatusFailureResult =
           (await res.json()) as GetStatusListFailureResult
         console.error("get status failed:", getStatusFailureResult)
+        if (!getStatusFailureResult.retryAfter) break outerLoop // retryAfter がない場合は全体を終了
         await sleep(getStatusFailureResult.retryAfter * 1000) // 失敗したら retryAfter だけ空けて次のリクエスト
       }
     }
@@ -74,7 +75,7 @@ export const useGetStatusList = (
 
   const queryClient = useQueryClient()
   const clearUseGetStatusList = () => {
-    queryClient.removeQueries({ queryKey: ["useGetStatusList"] })
+    queryClient.resetQueries({ queryKey: ["useGetStatusList"] })
   }
 
   return {
